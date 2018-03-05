@@ -3,8 +3,8 @@
 Assumptions :
 - There is a AWS IAM account with the following privileges (AmazonEC2FullAccess, AmazonRoute53FullAccess, AmazonS3FullAccess, IAMFullAccess, AmazonVPCFullAccess)
 - awcli is installed on your machine and set to use the above said IAM account. If not, use the below commands (For Ubuntu)
-    `pip install awscli --upgrade --user`
-    `aws configure`
+
+    `pip install awscli --upgrade --user; aws configure`
 - There is already a base domain name registered like `etc.com`
 - You have a repository to store docker images. Assuming, your created two repositories `etc/helloworld` & `etc/nginx`, we will proceed.
 
@@ -16,17 +16,13 @@ Assumptions :
 - Use the script `create_subdomain.sh` to do this step. (the values are hardcoded - so change them according to as needed)
 
 ## Install kubectl & kops
-- Run the below commands to install kubectl and kops
-
-    `curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl`
-    `chmod +x ./kubectl; sudo mv ./kubectl /usr/local/bin/kubectl`
-    `wget https://github.com/kubernetes/kops/releases/download/1.8.0/kops-linux-amd64`
-    `chmod +x kops-linux-amd64; sudo mv kops-linux-amd64 /usr/local/bin/kops`
+    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl
+    chmod +x ./kubectl; sudo mv ./kubectl /usr/local/bin/kubectl
+    wget https://github.com/kubernetes/kops/releases/download/1.8.0/kops-linux-amd64
+    chmod +x kops-linux-amd64; sudo mv kops-linux-amd64 /usr/local/bin/kops
 
 ## Create an S3 bucket to store your clusters state
-- Run the below commands to create and store the S3 bucket information to a variable
-
-    `aws s3 mb s3://clusters.zen.etc.com; export KOPS_STATE_STORE=s3://clusters.zen.etc.com`
+    aws s3 mb s3://clusters.zen.etc.com; export KOPS_STATE_STORE=s3://clusters.zen.etc.com
 
 ## Build your cluster configuration & Start the cluster
     kops create cluster --zones=eu-central-1 zen.etc.com
