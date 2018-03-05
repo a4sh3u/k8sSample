@@ -17,6 +17,7 @@ Assumptions :
 
 ## Install kubectl & kops
 - Run the below commands to install kubectl and kops
+
     `curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl`
     `chmod +x ./kubectl; sudo mv ./kubectl /usr/local/bin/kubectl`
     `wget https://github.com/kubernetes/kops/releases/download/1.8.0/kops-linux-amd64`
@@ -24,6 +25,7 @@ Assumptions :
 
 ## Create an S3 bucket to store your clusters state
 - Run the below commands to create and store the S3 bucket information to a variable
+
     `aws s3 mb s3://clusters.zen.etc.com; export KOPS_STATE_STORE=s3://clusters.zen.etc.com`
 
 ## Build your cluster configuration & Start the cluster
