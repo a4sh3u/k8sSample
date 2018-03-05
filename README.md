@@ -1,4 +1,4 @@
-### Hosting a simple Java Application on AWS in a K8 Cluster
+# Hosting a simple Java Application on AWS in a K8 Cluster
 
 Assumptions :
 - There is a AWS IAM account with the following privileges (AmazonEC2FullAccess, AmazonRoute53FullAccess, AmazonS3FullAccess, IAMFullAccess, AmazonVPCFullAccess)
