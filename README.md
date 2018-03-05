@@ -9,8 +9,8 @@ Assumptions :
 - You have a repository to store docker images. Assuming, your created two repositories `etc/helloworld` & `etc/nginx`, we will proceed.
 
 ## Create the docker images and push them to their repositories
-    `docker build -t etc/helloworld:latest java_app; docker push etc/helloworld:latest`
-    `docker build -t etc/nginx:latest nginx; docker push etc/nginx:latest`
+    docker build -t etc/helloworld:latest java_app; docker push etc/helloworld:latest
+    docker build -t etc/nginx:latest nginx; docker push etc/nginx:latest
 
 ## Create a route53 domain for your cluster
 - Use the script `create_subdomain.sh` to do this step. (the values are hardcoded - so change them according to as needed)
@@ -27,20 +27,20 @@ Assumptions :
     `aws s3 mb s3://clusters.zen.etc.com; export KOPS_STATE_STORE=s3://clusters.zen.etc.com`
 
 ## Build your cluster configuration & Start the cluster
-    `kops create cluster --zones=eu-central-1 zen.etc.com`
-    `kops update cluster zen.etc.com --yes`
+    kops create cluster --zones=eu-central-1 zen.etc.com
+    kops update cluster zen.etc.com --yes
 
 ## Wait for a few minutes to get the servers booted up & then validate them
-    `kops validate cluster`
+    kops validate cluster
 - If the above command succeeds, then proceed to the next steps. You should be able to see one Master Server and two Nodes running.
 
 ## Create the configuration and secret for the application deployment
-    `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/nginx.key -out nginx/nginx.crt -subj "/CN=nginxsvc/O=nginxsvc"`
-    `kubectl create secret tls nginxsecret --key nginx/nginx.key --cert nginx/nginx.crt`
-    `kubectl create configmap nginxconfigmap --from-file=nginx/default.conf`
+    openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout nginx/nginx.key -out nginx/nginx.crt -subj "/CN=nginxsvc/O=nginxsvc"
+    kubectl create secret tls nginxsecret --key nginx/nginx.key --cert nginx/nginx.crt
+    kubectl create configmap nginxconfigmap --from-file=nginx/default.conf
 
 ## Deploy the Application and the associated services
-    `kubectl apply -f deploy.yml`
+    kubectl apply -f deploy.yml
 
 ## The following command would give you the URL of the helloworld Application and it can be opened on the browser as it is
-    `echo "http://$(kubectl get services -o wide | grep nginxsvc | awk '{print $4}')"`
+    echo "http://$(kubectl get services -o wide | grep nginxsvc | awk '{print $4}')"
